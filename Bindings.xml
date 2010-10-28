@@ -1,0 +1,13 @@
+<Bindings>
+	<Binding name="TOGGLE_ROTATION" description="Toggle single-target/AOE rotation" header="ANGELE_DEI">
+		AngeleDei:ToggleRotation();
+	</Binding>
+
+	<Binding name="SINGLE_TARGET_ROTATION" description="Switch to single-target rotation">
+		AngeleDei:SwitchToRotation(true);
+	</Binding>
+
+	<Binding name="AOE_ROTATION" description="Switch to AOE rotation">
+		AngeleDei:SwitchToRotation(false);
+	</Binding>
+</Bindings>

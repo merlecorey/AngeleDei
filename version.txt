@@ -1,0 +1,55 @@
+* v1.0.1
+
+Rewrote spell info code to use spell IDs instead of spell names. The addon should work in all locales now (Vengeance indicator included), not just the ones it was localized for. Side effect: the icon for Inquisition has been corrected.
+
+Added English localization strings for all configuration UI labels, command line help, info messages etc. Still need help to translate all that.
+
+Bugfix: empty glyph slots caused problems.
+
+Bugfix: idle slots were not working (you'd have to screw up your rotation badly to see those, though).
+
+* v1.0.0
+
+Switched to a new version number scheme since the mod seems to be reasonably stable (unless I broke something else...).
+
+Added a Vengeance indicator and a checkbox to disable the addon if the current talent build is not protection.
+
+Rearranged configuration options a little bit.
+
+Added a Russian localization file.
+
+----
+
+* v0.5 [2010-10-15]
+
+Bugfix: HoR was wrecking the rotation pretty badly.
+
+* v0.4 [2010-10-06]
+
+Made some code changes to support multiple rotations. An AOE rotation will be added later. Changed the current single-target rotation to Theck's 3X (aka 939).
+
+If you are still having configuration-related problems, please exit WoW, go to '<your WOW directory>\WTF\Account\<your account>\SavedVariables', delete AngeleDei.lua and then restart WoW. This should reset your configuration settings.
+
+* v0.3 [2010-10-03]
+
+Added lots of stuff to the configuration UI. You can now modify the color and  behavior of the Holy Power indicator.
+
+Glyph of Consecration is now taken into account.
+
+The rotation should be a bit more stable and a bit less latency-sensitive. It also feels somewhat less rhythmic and there's a bit of jitter around empty GCDs. I don't think I can do anything about it because of all the random latencies involved. Player reaction time also affects jitter (the slower you are, the more jitter you'll see).
+
+* v0.2 [2010-09-29]
+
+Extra font files have been removed to keep the file small. Added a configuration screen that can be used to set up keystrokes for abilities used in the rotation. Added a command  ("/ad" or "/angeledei") to open the configuration screen. Fixed the missing icon bug.
+
+* v0.1a [2010-09-27]
+
+You'd think getting paths right inside the .zip file would be a good idea...
+
+* v0.1 [2010-09-27]
+
+Initial version. Single-target rotation only. The frame is permanently movable; will fix that later.
+
+Icon textures disappear sometimes after you use the first ability (at least on PTR). No idea why this happens, but the problem goes away after the UI is reloaded via "/console reloadui".
+
+Ability keystrokes are hard-coded to match what I am using. :) This will be configurable later.

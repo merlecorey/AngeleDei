@@ -1,0 +1,387 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
+	
+	<!-- Spell IDs -->
+	<Script file="id.lua"/>
+
+	<!-- Localization files -->
+	<Script file="localization.lua"/>
+	<Script file="localization.ruRU.lua"/>
+	<Script file="localization.zhTW.lua"/>
+
+	<!-- Source code -->
+	<Script file="AngeleDei.lua"/>
+	<Script file="rotations\cs45.lua"/>
+	<Script file="rotations\theck-3x-single.lua"/>
+	<Script file="rotations\theck-3x-aoe.lua"/>
+	<Script file="spellinfo.lua"/>
+	<Script file="state.lua"/>
+	<Script file="config.lua"/>
+
+	-- Prot rotation frame
+	<Frame name="AngeleDei_RotationFrame" enableMouse="true" movable="true" resizable="false" parent="UIParent" hidden="true" frameStrata="LOW">
+		<Size>
+			<AbsDimension x="200" y="72"/>
+		</Size>
+		
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+
+		<Layers>
+			<!--
+			<Layer level="BACKGROUND">
+				<Texture name="$parent_Fill">
+					<Color r="0.75" g="0" b="1" a="0.15"/>
+					<Size>
+						<AbsDimension x="200" y="72"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			-->
+
+			<Layer level="ARTWORK">
+				<Texture name="$parent_Outline" file="Interface\AddOns\AngeleDei\images\steelsquare1.tga" frameLevel="1">
+					<!-- <Color r="1" g="0" b="0" a="1"/> -->
+					<!--
+					<Size>
+						<AbsDimension x="72" y="72"/>
+					</Size>
+					<TexCoords left="0" right="0.5625" top="0" bottom="0.5625"/>
+					-->
+					<!--
+					<Size>
+						<AbsDimension x="97" y="106"/>
+					</Size>
+					<TexCoords left="0" right="0.7578125" top="0" bottom="0.828125"/>
+					-->
+					<Size>
+						<AbsDimension x="78" y="78"/>
+					</Size>
+					<TexCoords left="0" right="1" top="0" bottom="1"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="-3" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_HP_1" file="Interface\AddOns\AngeleDei\images\ComboGlowBG.tga" parent="$parent_Outline">
+					<Size>
+						<AbsDimension x="24" y="24"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="8" y="-24"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_HP_2" file="Interface\AddOns\AngeleDei\images\ComboGlowBG.tga" parent="$parent_Outline">
+					<Size>
+						<AbsDimension x="24" y="24"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="8" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_HP_3" file="Interface\AddOns\AngeleDei\images\ComboGlowBG.tga" parent="$parent_Outline">
+					<Size>
+						<AbsDimension x="24" y="24"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="8" y="24"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnMouseUp>
+				if(AngeleDei_RotationFrame.isMoving ) then
+					AngeleDei_RotationFrame:StopMovingOrSizing();
+					AngeleDei_RotationFrame.isMoving = false;
+				end
+			</OnMouseUp>
+			<OnMouseDown>
+				if(((not AngeleDei_RotationFrame.isLocked) or (AngeleDei_RotationFrame.isLocked == 0)) and (button == "LeftButton")) then
+					AngeleDei_RotationFrame:StartMoving();
+					AngeleDei_RotationFrame.isMoving = true;
+				end
+			</OnMouseDown>
+			<OnHide>
+				if(AngeleDei_RotationFrame.isMoving) then
+					AngeleDei_RotationFrame:StopMovingOrSizing();
+					AngeleDei_RotationFrame.isMoving = false;
+				end
+			</OnHide>
+		</Scripts>
+	</Frame>
+
+	<!-- Our edit box template -->
+	<EditBox name="MyEditBoxTemplate" numeric="false" letters="5" autoFocus="false" virtual="true">
+		<Size>
+			<AbsDimension x="32" y="20"/>
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\AddOns\AngeleDei\images\border2.tga">
+					<Size>
+						<AbsDimension x="20" y="20"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT">
+							<Offset>
+								<AbsDimension x="-4" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.15625" top="0" bottom="0.15625"/>
+				</Texture>
+				<Texture file="Interface\AddOns\AngeleDei\images\border2.tga">
+					<Size>
+						<AbsDimension x="20" y="20"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT">
+							<Offset>
+								<AbsDimension x="4" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.84375" right="1.0" top="0" bottom="0.15625"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<FontString inherits="ChatFontNormal" justifyH="CENTER"/>
+	</EditBox>
+	
+	<!-- Configuration frame -->
+	<Frame name="AngeleDeiOptions" parent="UIParent" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Title" inherits="GameFontNormalLarge" text="Angele Dei">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parent_Subtitle" inherits="GameFontHighlightSmall" text="Protection rotation helper for Cataclysm"
+				  height="32" justifyV="TOP" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_Title">
+							<Offset>
+								<AbsDimension x="0" y="-8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture name="$parent_CS_Icon" file="Interface\Icons\Spell_Holy_CrusaderStrike">
+					<Size x="32" y="32"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_Subtitle">
+							<Offset>
+								<AbsDimension x="0" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_SHOR_Icon" file="Interface\Icons\Ability_Paladin_ShieldofVengeance">
+					<Size x="32" y="32"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_CS_Icon">
+							<Offset>
+								<AbsDimension x="24" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_J_Icon" file="Interface\Icons\Spell_Holy_RighteousFury">
+					<Size x="32" y="32"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_SHOR_Icon">
+							<Offset>
+								<AbsDimension x="24" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_AS_Icon" file="Interface\Icons\Spell_Holy_AvengersShield">
+					<Size x="32" y="32"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_J_Icon">
+							<Offset>
+								<AbsDimension x="24" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_HW_Icon" file="Interface\Icons\Spell_Holy_PurifyingPower">
+					<Size x="32" y="32"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_AS_Icon">
+							<Offset>
+								<AbsDimension x="24" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_CO_Icon" file="Interface\Icons\Spell_Holy_InnerFire">
+					<Size x="32" y="32"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_HW_Icon">
+							<Offset>
+								<AbsDimension x="24" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_HOW_Icon" file="Interface\Icons\INV_Hammer_04">
+					<Size x="32" y="32"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_CO_Icon">
+							<Offset>
+								<AbsDimension x="24" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_HOR_Icon" file="Interface\Icons\Ability_Paladin_HammeroftheRighteous">
+					<Size x="32" y="32"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent_CS_Icon">
+							<Offset>
+								<AbsDimension x="0" y="-40"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="$parent_IDLE_Icon" file="Interface\Icons\Spell_Nature_Polymorph_Cow">
+					<Size x="32" y="32"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent_HOR_Icon">
+							<Offset>
+								<AbsDimension x="24" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		
+		<Frames>
+			<EditBox name="$parent_CS" inherits="MyEditBoxTemplate" autoFocus="true">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_CS_Icon">
+						<Offset>
+							<AbsDimension x="0" y="-4"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnShow>AngeleDeiOptions_CS:SetText(AngeleDei:GetSettings()[CS] or "");</OnShow></Scripts>
+			</EditBox>
+			<EditBox name="$parent_SHOR" inherits="MyEditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_SHOR_Icon">
+						<Offset>
+							<AbsDimension x="0" y="-4"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnShow>AngeleDeiOptions_SHOR:SetText(AngeleDei:GetSettings()[SHOR] or "");</OnShow></Scripts>
+			</EditBox>
+			<EditBox name="$parent_J" inherits="MyEditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_J_Icon">
+						<Offset>
+							<AbsDimension x="0" y="-4"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnShow>AngeleDeiOptions_J:SetText(AngeleDei:GetSettings()[J] or "");</OnShow></Scripts>
+			</EditBox>
+			<EditBox name="$parent_AS" inherits="MyEditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_AS_Icon">
+						<Offset>
+							<AbsDimension x="0" y="-4"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnShow>AngeleDeiOptions_AS:SetText(AngeleDei:GetSettings()[AS] or "");</OnShow></Scripts>
+			</EditBox>
+			<EditBox name="$parent_HW" inherits="MyEditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_HW_Icon">
+						<Offset>
+							<AbsDimension x="0" y="-4"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnShow>AngeleDeiOptions_HW:SetText(AngeleDei:GetSettings()[HW] or "");</OnShow></Scripts>
+			</EditBox>
+			<EditBox name="$parent_CO" inherits="MyEditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_CO_Icon">
+						<Offset>
+							<AbsDimension x="0" y="-4"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnShow>AngeleDeiOptions_CO:SetText(AngeleDei:GetSettings()[CO] or "");</OnShow></Scripts>
+			</EditBox>
+			<EditBox name="$parent_HOW" inherits="MyEditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_HOW_Icon">
+						<Offset>
+							<AbsDimension x="0" y="-4"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnShow>AngeleDeiOptions_HOW:SetText(AngeleDei:GetSettings()[HOW] or "");</OnShow></Scripts>
+			</EditBox>
+			<EditBox name="$parent_HOR" inherits="MyEditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_HOR_Icon">
+						<Offset>
+							<AbsDimension x="0" y="-4"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnShow>AngeleDeiOptions_HOR:SetText(AngeleDei:GetSettings()[HOR] or "");</OnShow></Scripts>
+			</EditBox>
+			<EditBox name="$parent_IDLE" inherits="MyEditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="$parent_IDLE_Icon">
+						<Offset>
+							<AbsDimension x="0" y="-4"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts><OnShow>AngeleDeiOptions_IDLE:SetText(AngeleDei:GetSettings()[IDLE] or "");</OnShow></Scripts>
+			</EditBox>
+		</Frames>
+		
+	</Frame>
+</Ui>

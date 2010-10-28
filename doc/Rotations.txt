@@ -1,0 +1,25 @@
+Single-target
+-------------
+
+This is the "CS-J-CS-X-CS-ShoR" rotation theorycrafted by Theck on Maintankadin 
+forums. X is either AS or HW. This rotation is commonly known as "939". It does 
+not suggest Hammer of Wrath when the target is low on health because there is no
+theorycrafting for that yet.
+
+Note: you won't see Consecration or Idle slots in your queue unless you start
+using  your abilities at wrong times.
+
+AOE
+---
+
+Same as above, except CS is replaced with HotR. Theorycrafting for AOE rotations 
+hasn't been done yet, but this rotation seems to work reasonably well (especially 
+since Inquisition isn't available until Cataclysm).
+
+Future changes (awaiting theorycrafting)
+----------------------------------------
+
+* Using HoW in single-target rotations
+* Using Inquisition in AOE rotation
+* Possibly a completely different AOE rotation once Theck gets around to
+  simulating it :)

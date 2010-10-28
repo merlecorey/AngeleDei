@@ -1,0 +1,44 @@
+Here are the steps to get you started if you've never used this addon before.
+
+
+1. Decide how you want to switch between rotations
+
+You have three choices depending on how you set up your action bars.
+
+    (a) If you have the same action bar setup for both single-target and AOE rotations
+        and you want to toggle rotations with a single key, bind that key to "Toggle 
+        single-target / AOE".
+    
+    (b) If you have the same action bar setup for both rotations and you want to use a
+        separate key to enable to your single-target rotation and a separate key to enable
+        your AOE rotations, bind those keys to "Switch to single-target" and "Switch to
+        AOE".
+
+    (c) If you use an addon that allows you to set up action bar paging (e.g. Dominos), 
+        you don't need to set up any key bindings. You will need to bind rotations to
+        action bar pages by opening the AD configuration panel (/ad cfg), going to the
+        rotation-specific panels and adjusting the "Bind to action bar page" sliders.
+        Once that's done, you will be able to switch between rotation simply by changing
+        your action bar page (the keybindings for that are under the "Action Bar
+        Functions" header in Blizzard's standard Key Bindings screen).
+
+
+2. Set up keystroke labels for tanking abilities (optional)
+
+Open the AD configuration panel (/ad cfg) and go to the rotiation-specific panels. For
+each icon listed under "Keystroke labels", enter the corresponding key combination that
+you would press to use that ability (for example, if you press "1" to cast Judgement,
+type 1 in the input box under the Judgement icon).
+
+Note that these labels are for visual feedback only. The addon does not (and, in fact,
+cannot) use any abilities; you'll still have to press the keys yourself. You can skip
+this step completely if you don't need to see icon labels. I would still recommend that
+you do it, though.
+
+
+3. Enable the addon if it's disabled for some reason
+
+Use the "/ad on" command to enable AD.
+
+
+That's it. Now go find something big and mean to beat on you. Happy tanking!

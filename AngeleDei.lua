@@ -645,7 +645,7 @@ function AngeleDei:OnEvent(event, timestamp, eventType, srcGUID, srcName, srcFla
 
 	local t = GetTime();
 
-	if(needUpdate == 1) then
+	if(needUpdate == 2) then
 		--DEFAULT_CHAT_FRAME:AddMessage("|cFF00FFFFAngele Dei|r: Shift (" .. eventType .. " / " .. p2 .. ")", 1, 1, 1);
 		AngeleDei:Shift(t);
 	end

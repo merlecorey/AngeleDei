@@ -1,3 +1,8 @@
+-- Return codes for ApplyEvent()
+local IGNORE = 0;
+local RECALCULATE = 1;
+local SHIFT = 2;
+
 --local Copy = function(this)
 	--local t2 = { };
 	--for k,v in pairs(this) do 
@@ -78,6 +83,17 @@ local buffExpiration = function(spellID)
 	return expirationTime;
 end
 
+-- Figure out whether we need to re-run the simulation because
+-- the health of the target has crossed the 20% mark in either direction
+local checkLowHealth = function(this)
+	local lowHealthNow = IsUsableSpell(HOW);
+	if(lowHealthNow == this.lowHealth) then
+		return IGNORE;
+	else
+		this.lowHealth = lowHealthNow;
+		return RECALCULATE;
+	end
+end
 
 -- Update the state using the data of a combat log event.
 -- Return 0 if the event was ignorable, 1 if the icons should be shifted,
@@ -101,12 +117,12 @@ local ApplyEvent = function(this, event, spellID, powerType, spellinfo)
 		if(spellID == HOR) then
 			local lastHOR = this.last[spellID];
 			if(lastHOR) and (GetTime() - lastHOR < 1.0) then
-				return 0;
+				return IGNORE;
 			end
 		end
 		
 		this:SetHolyPower(UnitPower("player", 9));
-		local result = 0;
+		local result = IGNORE;
 		local known = spellinfo:IsKnownSpell(spellID);
 		
 		-- Keep track of the last spellcast
@@ -117,12 +133,12 @@ local ApplyEvent = function(this, event, spellID, powerType, spellinfo)
 		-- We know that CS will always generate 1 HP, therefore we can adjust our value in advance
 		if(spellID == CS) or (spellID == HOR) then
 			this:SetHolyPower(math.min(this:GetHolyPower()+1, 3));
-			result = 2;
+			result = RECALCULATE;
 		end
 		-- Same with ShoR/Inq and Holy Shield
 		if(spellID == SHOR) or (spellID == INQ) then
 			this:SetExpiration(HS, GetTime() + spellinfo:GetExpiration(HS));
-			result = 2;
+			result = RECALCULATE;
 		end
 		
 		-- HOR and CS have a shared cooldown
@@ -130,12 +146,12 @@ local ApplyEvent = function(this, event, spellID, powerType, spellinfo)
 			local start = GetTime();	-- GetSpellCooldown(spellID);			
 			this:SetCooldown(CS, start+spellinfo:GetCooldown(CS));
 			this:SetCooldown(HOR, start+spellinfo:GetCooldown(HOR));
-			result = 1;
+			result = SHIFT;
 		elseif(known) then
 			local start = GetTime();	-- GetSpellCooldown(spellID);			
 			--DEFAULT_CHAT_FRAME:AddMessage("[|cFFFF0080Angeli Dei / state|r] ApplyEvent: '" .. spellID .. "' start=" .. start .. " cd=" .. spellinfo:GetCooldown(spellID));
 			this:SetCooldown(spellID, start+spellinfo:GetCooldown(spellID));
-			result = 1;
+			result = SHIFT;
 		end;
 
 		-- Actual spell delay reporting
@@ -163,33 +179,33 @@ local ApplyEvent = function(this, event, spellID, powerType, spellinfo)
 			local expiration = buffExpiration(spellID);
 			--DEFAULT_CHAT_FRAME:AddMessage("[|cFFFF00D0Angeli Dei / state|r] ApplyEvent: '" .. spellID .. "' exp=" .. format("%4.2f", expiration));
 			this:SetExpiration(spellID, expiration);
-			return 0;		-- We do NOT want to update our rotation on unimportant buffs
+			return IGNORE;		-- We do NOT want to update our rotation on unimportant buffs
 			--return (spellID == SD) and 0 or 2;
 		end
 		if(spellID == GC) then
 			this:SetCooldown(AS, nil);
-			return 2;
+			return RECALCULATE;
 		end
 		
-		return 0;
+		return IGNORE;
 	end
 	
 	if(event == "SPELL_ENERGIZE") then
 		-- By the time EG procs, the client will know the current HoPo
 		if(spellID == EG) then
 			this:SetHolyPower(UnitPower("player", 9));
-			return 2;
+			return RECALCULATE;
 		end
 	end
 	
 	--if(event == "SPELL_AURA_REMOVED") then
 	--	if(spellID == SD) or (spellID == HS) then
 	--		this:SetExpiration(spellID, nil);
-	--		return 2;
+	--		return RECALCULATE;
 	--	end
 	--end
 
-	return 0;
+	return IGNORE;
 end
 
 -- Get the first spell from the list that isn't on cooldown
@@ -227,7 +243,8 @@ function CreateState()
 	t.effects = { };
 	t.holyPower = 0;
 	t.last = { };
-	t.lastUsed = "UNKNOWN";	
+	t.lastUsed = "UNKNOWN";
+	t.lowHealth = false;
 	
 	t.Copy = Copy;
 	t.SetCooldown = SetCooldown;

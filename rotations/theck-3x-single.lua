@@ -1,21 +1,25 @@
-local PRIORITY_939_SINGLE_TARGET		= { CS, J, AS, HW, CO };
+local PRIORITY_939_SINGLE_TARGET			= { CS, J, AS, HW, CO };
+local PRIORITY_939_SINGLE_TARGET_LOW_HEALTH	= { CS, J, HOW, AS, HW, CO };
 
 -- Sort the cooldowns by expiration. Return a list of pairs:
 -- { { ability, cooldown }, ... }. Cooldowns that expire before 't'
 -- are set to 't'
-local function sortByExpiration(t, allowHPSink, state, spellinfo)
+local function sortByExpiration(t, allowHPSink, allowHOW, state, spellinfo)
 	local result = { };
 	local cds = spellinfo:GetAbilitiesWithCooldowns();
 
 	for i=1,#cds do
 		local name = cds[i];
 		local cooldown = state:GetCooldown(name);
-		--print("[sortByExpiration] " .. (name or "?") .. " = " .. (cooldown or "?") .. " (" .. #result .. ")");
-		local cd = ((cooldown == nil) or (cooldown < t)) and t or cooldown;
-		local info = { };
-		info.name = name;
-		info.cooldown = cd;
-		result[#result+1] = info;
+		-- If HoW is not allowed, don't consider it at all
+		if(name ~= HOW) or (allowHOW) then
+			--print("[sortByExpiration] " .. (name or "?") .. " = " .. (cooldown or "?") .. " (" .. #result .. ")");
+			local cd = ((cooldown == nil) or (cooldown < t)) and t or cooldown;
+			local info = { };
+			info.name = name;
+			info.cooldown = cd;
+			result[#result+1] = info;
+		end
 	end
 
 	-- Add the HoPo sink move to the list if we are allowed to do so
@@ -116,7 +120,7 @@ local function chooseNext(this, t, spellinfo, state, priority)
 		return SHOR;
 	end
 
-	return state:GetByPriority(t+priority, this:GetPriority());
+	return state:GetByPriority(t+priority, this:GetPriority(state));
 end
 
 -- Get the next 'count' abilities based on what's on the cooldown
@@ -133,7 +137,7 @@ local GetNext = function(this, count, time, spellinfo, originalState, settings)
 	
 	for i=1, count do
 		-- Get list of { name, cooldown } pairs sorted by cooldown
-		local list = sortByExpiration(t, true, state, spellinfo);
+		local list = sortByExpiration(t, true, state:IsLowHealth(), state, spellinfo);
 		
 		--for j=1,#list do
 		--	print("  " .. j .. ": " .. list[j].name .. " @ " .. format("%4.3f", list[j].cooldown - t0));
@@ -177,8 +181,12 @@ local GetNext = function(this, count, time, spellinfo, originalState, settings)
 end
 
 -- Get the priority list for this rotation
-local GetPriority = function(this)
-	return PRIORITY_939_SINGLE_TARGET;
+local GetPriority = function(this, state)
+	if(state:IsLowHealth()) then
+		return PRIORITY_939_SINGLE_TARGET_LOW_HEALTH;
+	else
+		return PRIORITY_939_SINGLE_TARGET;
+	end
 end
 
 -- Constructor

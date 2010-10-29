@@ -63,6 +63,7 @@ function AngeleDei:Enable(event)
 	
 	-- We'll use this frame for timer and combat log events
 	AngeleDei:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+	AngeleDei:RegisterEvent("PLAYER_TARGET_CHANGED");
 	AngeleDei:RegisterEvent("ACTIONBAR_PAGE_CHANGED");
 	AngeleDei:RegisterEvent("UNIT_AURA");
 	AngeleDei:RegisterEvent("PLAYER_ALIVE");
@@ -608,7 +609,7 @@ function AngeleDei:OnEvent(event, timestamp, eventType, srcGUID, srcName, srcFla
 		end
 		return;
 	end
-
+	
 	local myself = UnitName("player");
 		
 	-- Process aura changes (used for vengeance)
@@ -616,6 +617,13 @@ function AngeleDei:OnEvent(event, timestamp, eventType, srcGUID, srcName, srcFla
 		if(timestamp == "player") then
 			AngeleDei:UpdateVengeanceIndicator();
 		end
+		return;
+	end
+	
+	-- Re-run the simulation if the player changed the current target to
+	-- or from a low-health target
+	if(event == "PLAYER_TARGET_CHANGED") then
+		updateSimulation(event, nil, nil, nil);
 		return;
 	end
 	
@@ -634,6 +642,12 @@ function AngeleDei:OnEvent(event, timestamp, eventType, srcGUID, srcName, srcFla
 		return;
 	end
 	
+	-- Update the simulation based on combat log events
+	updateSimulation(eventType, p1, p2, s2);	
+end
+
+-- Process an event that could make us re-run the simulation
+function updateSimulation(eventType, p1, p2, s2)
 	-- 'p1' is spellID, 'p2' is name
 	local needUpdate = State:ApplyEvent(eventType, p1, s2, Spellinfo);
 	
@@ -652,7 +666,7 @@ function AngeleDei:OnEvent(event, timestamp, eventType, srcGUID, srcName, srcFla
 	
 	if(needUpdate ~= 0) then
 		--DEFAULT_CHAT_FRAME:AddMessage("|cFF00FF80Angele Dei|r: Simulation (" .. eventType .. " / " .. p2 .. ")", 1, 1, 1);
-		AngeleDei:RunSimulation(t, p2);
+		AngeleDei:RunSimulation(t, p2 or "(" .. eventType .. ")");
 		--local list = Rotation:GetNext(5, GetTime(), Spellinfo, State);
 		--DEFAULT_CHAT_FRAME:AddMessage("[|cFFFFC000Angeli Dei|r] Next " .. #list .. ":");			
 		--for i=1,#list do

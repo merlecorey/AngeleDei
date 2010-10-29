@@ -1,7 +1,7 @@
 local PRIORITY_939_AOE		= { HOR, J, AS, HW, CO };
 
 -- Get the priority list for this rotation
-local GetPriorityAOE = function(this)
+local GetPriorityAOE = function(this, state)
 	return PRIORITY_939_AOE;
 end
 

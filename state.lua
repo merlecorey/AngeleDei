@@ -87,12 +87,18 @@ end
 -- the health of the target has crossed the 20% mark in either direction
 local checkLowHealth = function(this)
 	local lowHealthNow = IsUsableSpell(HOW);
-	if(lowHealthNow == this.lowHealth) then
+	if(lowHealthNow and this.lowHealth) or ((not lowHealthNow) and (not this.lowHealth)) then
 		return IGNORE;
 	else
+		--print("[checkLowHealth] " .. (this.lowHealth and "yes" or "no") .. " --> " .. (lowHealthNow and "yes" or "no"));
 		this.lowHealth = lowHealthNow;
 		return RECALCULATE;
 	end
+end
+
+-- Get the most important of the two return codes
+local function max(a, b)
+	return (a > b) and a or b;
 end
 
 -- Update the state using the data of a combat log event.
@@ -108,16 +114,24 @@ local ApplyEvent = function(this, event, spellID, powerType, spellinfo)
 	--   A new ability is used and the rotation predicts ShoR again
 	-- This produces extra jitter we don't need, so I am moving HoPo measurements to SPELL_CAST_SUCCESS
 	--this:SetHolyPower(UnitPower("player", 9));
+	
+	-- Update the low health status if the player target changes
+	if(event == "PLAYER_TARGET_CHANGED") then
+		return checkLowHealth(this);
+	end
 
 	-- All instants
 	if(event == "SPELL_CAST_SUCCESS") then
+		-- Take target health changes into account
+		local low = checkLowHealth(this);
+		
 		-- HOR is cast twice in a row (one physical single-target, one holy AOE).
 		-- If it's cast too soon after the last cast, we'll pretend it never happened.
 		-- Note that this means we have to execute this code BEFORE anything else is done.
 		if(spellID == HOR) then
 			local lastHOR = this.last[spellID];
 			if(lastHOR) and (GetTime() - lastHOR < 1.0) then
-				return IGNORE;
+				return max(low, IGNORE);
 			end
 		end
 		
@@ -171,7 +185,7 @@ local ApplyEvent = function(this, event, spellID, powerType, spellinfo)
 		
 		-- We'll use it to filter out the second HOR
 		this.last[spellID] = GetTime();
-		return result;
+		return max(low, result);
 	end
 	
 	if(event == "SPELL_AURA_APPLIED") or (event == "SPELL_AURA_REFRESHED") then
@@ -230,6 +244,11 @@ local SetLastUsed = function(this, spellID)
 	--DEFAULT_CHAT_FRAME:AddMessage("[|cFFFF0080Angeli Dei / state|r] Last used: '" .. spellID .. "'");
 end
 
+-- Check whether the target is low on health
+local IsLowHealth = function(this)
+	return this.lowHealth;
+end
+
 -- Get the duration of the global cooldown
 local GCD = function(this)
 	return 1.5;
@@ -259,6 +278,7 @@ function CreateState()
 	t.GetByPriority = GetByPriority;
 	t.GetLastUsed = GetLastUsed;
 	t.SetLastUsed = SetLastUsed;
+	t.IsLowHealth = IsLowHealth;
 	t.GCD = GCD;
 
 	--DEFAULT_CHAT_FRAME:AddMessage("[|cFFFFC000Angeli Dei / state|r] Created");

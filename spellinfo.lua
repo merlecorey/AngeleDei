@@ -1,4 +1,4 @@
-local abilitiesWithCooldowns = { CS, HOR, J, AS, HW, CO }; --, HOW };
+local abilitiesWithCooldowns = { CS, HOR, J, AS, HW, CO, HOW };
 
 -- Add a spell cooldown
 local AddSpell = function(this, spellID, cooldown, icon)

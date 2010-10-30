@@ -1,3 +1,7 @@
+* v1.0.2
+
+Support for Hammer of Wrath: the addon will start suggesting it if the target is below 20% health.
+
 * v1.0.1
 
 Rewrote spell info code to use spell IDs instead of spell names. The addon should work in all locales now (Vengeance indicator included), not just the ones it was localized for. Side effect: the icon for Inquisition has been corrected.

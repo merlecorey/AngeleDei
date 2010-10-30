@@ -109,7 +109,7 @@ local function applyAbility(name, t, state, spellinfo)
 end
 
 -- Choose an ability for the CS slot
-local function chooseNext(this, t, spellinfo, state, priority)
+local ChooseNext = function(this, t, spellinfo, state, priority)
 	local hopo = state:GetHolyPower();
 	
 	if(hopo > 0) and (not state:IsActive(HS, t)) then
@@ -150,7 +150,7 @@ local GetNext = function(this, count, time, spellinfo, originalState, settings)
 
 		
 		-- Figure out the slot for tNext and the corresponding ability
-		local ability = chooseNext(this, tNext, spellinfo, state, priority);
+		local ability = this:ChooseNext(tNext, spellinfo, state, priority);
 	
 		-- Adjust the state according to the ability we've chosen
 		applyAbility(ability, tNext, state, spellinfo);
@@ -195,6 +195,7 @@ function CreateRotationTheck939()
 	
 	t.GetNext = GetNext;
 	t.GetPriority = GetPriority;
+	t.ChooseNext = ChooseNext;
 	t.name = TITLE_SINGLE_939;
 	t.description = SUBTITLE_SINGLE_939;
 	t.singleTarget = true;

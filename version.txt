@@ -1,3 +1,7 @@
+* v1.0.3
+
+Changed protection spec detection to make sure the addon works at lower levels too.
+
 * v1.0.2
 
 Support for Hammer of Wrath: the addon will start suggesting it if the target is below 20% health.

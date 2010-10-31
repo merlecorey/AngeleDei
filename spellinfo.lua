@@ -119,7 +119,7 @@ function CreateSpellinfo()
 	
 	t.cooldowns = { };
 	t.effects = { };
-	t.protection = (talentRank(20925) > 0);		-- Holy Shield
+	t.protection = (GetPrimaryTalentTree() == 2);		-- Holy Shield
 	
 	t.AddSpell = AddSpell;
 	t.AddEffect = AddEffect;

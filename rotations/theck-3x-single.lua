@@ -1,4 +1,5 @@
 local PRIORITY_939_SINGLE_TARGET			= { CS, J, AS, HW, CO };
+local PRIORITY_939_SINGLE_TARGET_CONSECRATE	= { CS, J, AS, CO, HW };
 local PRIORITY_939_SINGLE_TARGET_LOW_HEALTH	= { CS, J, HOW, AS, HW, CO };
 
 -- Sort the cooldowns by expiration. Return a list of pairs:
@@ -108,11 +109,11 @@ local function applyAbility(name, t, state, spellinfo)
 	end
 end
 
--- Choose an ability for the CS slot
-local ChooseNext = function(this, t, spellinfo, state, priority)
+-- Choose the next ability (single-target flavor)
+local ChooseNext = function(this, t, spellinfo, state, priority, settings)
 	local hopo = state:GetHolyPower();
 	
-	if(hopo > 0) and (not state:IsActive(HS, t)) then
+	if(hopo > 0) and (not state:IsActive(HS, t)) and (settings.holyShield) then
 		-- Initial application of Holy Shield
 		return SHOR;
 	elseif(hopo == 3) then
@@ -120,7 +121,7 @@ local ChooseNext = function(this, t, spellinfo, state, priority)
 		return SHOR;
 	end
 
-	return state:GetByPriority(t+priority, this:GetPriority(state));
+	return state:GetByPriority(t+priority, this:GetPriority(state, settings, spellinfo));
 end
 
 -- Get the next 'count' abilities based on what's on the cooldown
@@ -150,7 +151,7 @@ local GetNext = function(this, count, time, spellinfo, originalState, settings)
 
 		
 		-- Figure out the slot for tNext and the corresponding ability
-		local ability = this:ChooseNext(tNext, spellinfo, state, priority);
+		local ability = this:ChooseNext(tNext, spellinfo, state, priority, settings);
 	
 		-- Adjust the state according to the ability we've chosen
 		applyAbility(ability, tNext, state, spellinfo);
@@ -181,9 +182,11 @@ local GetNext = function(this, count, time, spellinfo, originalState, settings)
 end
 
 -- Get the priority list for this rotation
-local GetPriority = function(this, state)
+local GetPriority = function(this, state, settings, spellinfo)
 	if(state:IsLowHealth()) then
 		return PRIORITY_939_SINGLE_TARGET_LOW_HEALTH;
+	elseif(settings.consecration and ((not settings.hallowedGround) or spellinfo:HasHallowedGround())) then
+		return PRIORITY_939_SINGLE_TARGET_CONSECRATE;
 	else
 		return PRIORITY_939_SINGLE_TARGET;
 	end

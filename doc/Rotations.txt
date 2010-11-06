@@ -6,17 +6,31 @@ forums. X is either AS or HW. This rotation is commonly known as "939". When the
 current target is low on health the addon starts suggesting Hammer of Wrath,
 resulting in "CS-J-CS-HoW-CS-SHoR".
 
-Note: you won't see Consecration or Idle slots in your queue unless you start
-using your abilities at wrong times.
+If your settings prioritize Consecration, X will be AS, Consecration or HW.
+If you don't prioritize Consecration, you shouldn't Consecration slots.
+
+Prioritizing Consecration when you don't have Hallowed Ground will not improve
+your DPS, but your rotation will be quite a bit more mana-intensive.
+
+Prioritizing Consecration when you DO have Hallowed Ground will improve your 
+DPS by about 0.6%.
+
+Note: you won't see Idle slots in your queue unless you start using your 
+abilities at wrong times.
 
 AOE
 ---
 
-Same as above, except CS is replaced with HotR and Hammer of Wrath is not used.
-Still waiting for theorycrafting for AOE rotations that use Inquisition. In the
-meantime, this rotation seems to work reasonably well.
+If you don't prioritize Consecration, you will get a variant of 939 in which CS
+will be replaced by HotR (a.k.a. "9H9"): "HotR-J-HotR-X-HotR-ShoR". X is either 
+AS or HW.
 
-Future changes (awaiting theorycrafting)
-----------------------------------------
+If you do prioritize Consecration, you'll get a more poweful and MUCH more
+mana-intensive rotation: HotR>Cons>HW>AS>ShoR>J. Using it without the Hallowed
+Ground talent will probably drain your mana very quickly.
 
-* Still waiting on info for Cataclysm-style AOE rotations
+
+Future changes
+--------------
+
+* Waiting for Cataclysm so I can start using Inquisition in my AOE rotations

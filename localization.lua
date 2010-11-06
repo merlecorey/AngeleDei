@@ -60,6 +60,9 @@ SUBTITLE_ROTATION_GENERAL = "Timing, ability toggles etc";
 LABEL_MSEC = " msec";
 LABEL_DELAY = "|cFFFFD000Crusader Strike|r delay threshold (msec)";
 LABEL_OVERRIDE = "Priority override threshold (msec)";
+LABEL_CONSECRATION = "Prioritize |cFFFFD000Consecration|r";
+LABEL_HALLOWED_GROUND = "...only if I have the |cFFFFD000Hallowed Ground|r talent";
+LABEL_HOLY_SHIELD = "Set up |cFFFFD000Holy Shield|r as soon as possible";
 
 -- Configuration pane: Rotations
 LABEL_BIND = "Bind to action bar page";
@@ -70,7 +73,7 @@ LABEL_IDLE = "Zzz";
 SECTION_KEYSTROKES = "Keystroke labels";
 
 -- Rotation titles and subtitles
-TITLE_SINGLE_939 = "Single target (939)";
+TITLE_SINGLE_939 = "Single target";
 SUBTITLE_SINGLE_939 = "Theck's |cFFFFC0C0CS-J-CS-X-CS-ShoR|r rotation. Also known as \"939\".";
-TITLE_AOE_939 = "AOE (939)";
-SUBTITLE_AOE_939 = "AOE rotation (initial version), pending theorycrafting results.";
+TITLE_AOE_939 = "AOE";
+SUBTITLE_AOE_939 = "Either a heavy-duty AOE rotation or \"9H9\" depending on your settings.";

@@ -273,6 +273,8 @@ function AngeleDei:UpdateAppearance()
 	AngeleDei:UpdateVengeanceIndicatorStyle();
 	AngeleDei_RotationFrame:SetScale(Config.scale);
 	AngeleDei_RotationFrame:EnableMouse(not Config.locked);
+	
+	AngeleDei:RunSimulation(GetTime(), "On config change", true);
 end
 
 -- Start the icon shift animation

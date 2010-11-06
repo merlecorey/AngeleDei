@@ -224,6 +224,16 @@ function Options:CreateGeneralRotationPanel()
 	end);
 	Options.timing.priority:SetValue(500);
 
+	Options.timing.holyShield = Options:CreateCheckButton(LABEL_HOLY_SHIELD, Options.timing);
+	Options.timing.holyShield:SetPoint("TOPLEFT", Options.timing.priority, "BOTTOMLEFT", 0, -8);	
+
+	Options.timing.consecration = Options:CreateCheckButton(LABEL_CONSECRATION, Options.timing);
+	Options.timing.consecration:SetPoint("TOPLEFT", Options.timing.holyShield, "BOTTOMLEFT", 0, 4);	
+
+	Options.timing.hallowedGround = Options:CreateCheckButton(LABEL_HALLOWED_GROUND, Options.timing);
+	Options.timing.hallowedGround:SetPoint("TOPLEFT", Options.timing.consecration, "BOTTOMLEFT", 24, 4);	
+	_G[Options.timing.hallowedGround:GetName() .. "Text"]:SetFontObject("GameFontHighlightSmall");
+
 	return Options.timing;
 end
 
@@ -361,6 +371,9 @@ function Options:Populate()
 	-- Timing parameters
 	Options.timing.delay:SetValue(p.delay or 250);
 	Options.timing.priority:SetValue(p.priority or 500);
+	Options.timing.consecration:SetChecked(p.consecration);
+	Options.timing.holyShield:SetChecked(p.holyShield);
+	Options.timing.hallowedGround:SetChecked(p.hallowedGround);
 
 	-- Rotation panels
 	local rotationCodes = AngeleDei:GetRotations();
@@ -401,9 +414,12 @@ function Options:Save()
 	p.protOnly = Options.protOnly:GetChecked() and true or false;
 	p.locked = Options.locked:GetChecked() and true or false;
 
-	-- Timing
+	-- Timing and general rotation options
 	p.delay = Options.timing.delay:GetValue();
 	p.priority = Options.timing.priority:GetValue();
+	p.holyShield = Options.timing.holyShield:GetChecked() and true or false;
+	p.consecration = Options.timing.consecration:GetChecked() and true or false;
+	p.hallowedGround = Options.timing.hallowedGround:GetChecked() and true or false;
 
 	-- Rotation settings
 	local rotationCodes = AngeleDei:GetRotations();
@@ -470,6 +486,9 @@ function Options:SetDefaults()
 	
 	set(p, "delay", 650);
 	set(p, "priority", 325);
+	set(p, "holyShield", true);
+	set(p, "consecration", true);
+	set(p, "hallowedGround", true);
 
 	set(p, "rotations", { });
 	

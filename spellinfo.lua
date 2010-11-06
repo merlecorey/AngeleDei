@@ -1,4 +1,4 @@
-local abilitiesWithCooldowns = { CS, HOR, J, AS, HW, CO, HOW };
+abilitiesWithCooldowns = { CS, HOR, J, AS, HW, CO, HOW };
 
 -- Add a spell cooldown
 local AddSpell = function(this, spellID, cooldown, icon)
@@ -113,13 +113,18 @@ local IsProtection = function(this)
 	return this.protection;
 end
 
+local HasHallowedGround = function(this)
+	return this.hallowedGround;
+end
+
 -- Constructor
 function CreateSpellinfo()
 	local t = { };
 	
 	t.cooldowns = { };
 	t.effects = { };
-	t.protection = (GetPrimaryTalentTree() == 2);		-- Holy Shield
+	t.protection = (GetPrimaryTalentTree() == 2);					-- Holy Shield
+	t.hallowedGround = (talentRank(84633) > 0) and true or false;	-- Hallowed Ground
 	
 	t.AddSpell = AddSpell;
 	t.AddEffect = AddEffect;
@@ -130,6 +135,7 @@ function CreateSpellinfo()
 	t.IsKnownSpell = IsKnownSpell;
 	t.GetAbilitiesWithCooldowns = GetAbilitiesWithCooldowns;
 	t.IsProtection = IsProtection;
+	t.HasHallowedGround = HasHallowedGround;
 
 	t:AddSpell(CS, 3);
 	t:AddSpell(HOR, 3, "Interface\\Icons\\Ability_Paladin_HammeroftheRighteous");

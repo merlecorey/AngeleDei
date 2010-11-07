@@ -658,6 +658,12 @@ function updateSimulation(eventType, p1, p2, s2)
 	if(not Config.enabled) then
 		return;
 	end
+	
+	-- If the rotation is not target-sensitive, do not re-run the sim when the target changes.
+	-- This should reduce jitter for AOE rotations when target die quickly
+	if(eventType == "PLAYER_TARGET_CHANGED") and (not Rotation:IsTargetSensitive()) then
+		return;
+	end
 
 	local t = GetTime();
 

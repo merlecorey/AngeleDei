@@ -192,6 +192,11 @@ local GetPriority = function(this, state, settings, spellinfo)
 	end
 end
 
+-- Check whether simulation should be re-run for this rotation when the target changes
+local IsTargetSensitive = function(this)
+	return this.targetSensitive;
+end
+
 -- Constructor
 function CreateRotationTheck939()
 	local t = { };
@@ -199,9 +204,11 @@ function CreateRotationTheck939()
 	t.GetNext = GetNext;
 	t.GetPriority = GetPriority;
 	t.ChooseNext = ChooseNext;
+	t.IsTargetSensitive = IsTargetSensitive;
 	t.name = TITLE_SINGLE_939;
 	t.description = SUBTITLE_SINGLE_939;
 	t.singleTarget = true;
+	t.targetSensitive = true;
 
 	return t;
 end

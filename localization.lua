@@ -62,7 +62,7 @@ LABEL_DELAY = "|cFFFFD000Crusader Strike|r delay threshold (msec)";
 LABEL_OVERRIDE = "Priority override threshold (msec)";
 LABEL_CONSECRATION = "Prioritize |cFFFFD000Consecration|r";
 LABEL_HALLOWED_GROUND = "...only if I have the |cFFFFD000Hallowed Ground|r talent";
-LABEL_HOLY_SHIELD = "Set up |cFFFFD000Holy Shield|r as soon as possible";
+LABEL_HOLY_SHIELD = "Set up |cFFFFD000Holy Shield|r as soon as possible (and keep it up!)";
 
 -- Configuration pane: Rotations
 LABEL_BIND = "Bind to action bar page";

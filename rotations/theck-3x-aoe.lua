@@ -40,6 +40,7 @@ function CreateRotationAOE939()
 	t.name = TITLE_AOE_939;
 	t.description = SUBTITLE_AOE_939;
 	t.singleTarget = false;
+	t.targetSensitive = false;
 
 	return t;
 end

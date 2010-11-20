@@ -37,8 +37,11 @@ function Options:Load(title, subtitle)
 	Options.locked = self:CreateCheckButton(LABEL_LOCKED, self);
 	Options.locked:SetPoint("TOPLEFT", Options.protOnly, "BOTTOMLEFT", 0, 4);
 
+	Options.sound = self:CreateCheckButton(LABEL_SOUND, self);
+	Options.sound:SetPoint("TOPLEFT", Options.locked, "BOTTOMLEFT", 0, 4);
+
 	Options.scale = Options:CreateSlider(LABEL_SCALE, self, 0.3, 1.5, 0.05);
-	Options.scale:SetPoint("TOPLEFT", Options.locked, "BOTTOMLEFT", 0, -16);
+	Options.scale:SetPoint("TOPLEFT", Options.sound, "BOTTOMLEFT", 0, -16);
 	local minValue, maxValue = Options.scale:GetMinMaxValues();
 	local minLabel = Options.scale:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall");
 	minLabel:SetText(format("%2.1f", minValue));
@@ -367,6 +370,7 @@ function Options:Populate()
 	Options.combatToggle:SetChecked(p.combatToggle);
 	Options.protOnly:SetChecked(p.protOnly);
 	Options.locked:SetChecked(p.locked);
+	Options.sound:SetChecked(p.sound);
 	
 	-- Timing parameters
 	Options.timing.delay:SetValue(p.delay or 250);
@@ -413,6 +417,7 @@ function Options:Save()
 	p.combatToggle = Options.combatToggle:GetChecked() and true or false;
 	p.protOnly = Options.protOnly:GetChecked() and true or false;
 	p.locked = Options.locked:GetChecked() and true or false;
+	p.sound = Options.sound:GetChecked() and true or false;
 
 	-- Timing and general rotation options
 	p.delay = Options.timing.delay:GetValue();
@@ -474,6 +479,7 @@ function Options:SetDefaults()
 	set(p, "combatToggle", false);
 	set(p, "protOnly", false);
 	set(p, "locked", false);
+	set(p, "sound", true);
 
 	set(p, "fadeOut", true);
 	set(p, "blink", false);

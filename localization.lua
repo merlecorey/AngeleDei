@@ -34,6 +34,7 @@ SECTION_MISC = "Misc. settings";
 LABEL_COMBAT_TOGGLE = "Toggle addon when combat starts or ends";
 LABEL_PROT_ONLY = "Enable addon for |cFF00FFFFprotection spec|r only";
 LABEL_LOCKED = "Lock frame (use |cFFFFD000/ad move|r to move it)";
+LABEL_SOUND = "Play a warning sound when the rotation changes";
 LABEL_SCALE = "Frame scale";
 
 -- Configuration panel: Holy Power and procs

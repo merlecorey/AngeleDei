@@ -723,7 +723,7 @@ function AngeleDei:RunSimulation(t, reason, suppressSound)
 		
 	end
 
-	if(changed) and (changed == 1) and (not suppressSound) then
+	if(changed) and (changed == 1) and (not suppressSound) and (Config.sound) then
 		PlaySoundFile("Interface\\AddOns\\AngeleDei\\sounds\\lutnia1_1.ogg");
 	end
 end

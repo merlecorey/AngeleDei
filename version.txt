@@ -11,7 +11,9 @@ Added new configuration options:
 New rotations that prioritize Consecration:
 
 - ShoR>CS>J>AS>CO>HW (single target)
-- HotR>Cons>HW>AS>ShoR>J (AOE - extremely mana-intensive)
+- HotR>Cons>HW>AS>ShoR>J (AOE - mana-intensive)
+
+Added an option to disable warning sound on rotation changes
 
 * v1.0.2
 

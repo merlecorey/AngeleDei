@@ -1,7 +1,7 @@
 ## Interface: 40000
 ## Title: Angele Dei
 ## Author: Cyanide
-## Version: 1.0.2
+## Version: 1.0.3
 ## SavedVariables: AngeleDeiPreferencesMkIII
 ## Notes: Protection Paladin rotation helper
 AngeleDei.xml
